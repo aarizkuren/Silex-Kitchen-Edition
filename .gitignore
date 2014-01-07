@@ -3,3 +3,6 @@
 /resources/log/*
 /vendor/
 /web/assets/*
+/web/js/libs/*
+
+/.idea
