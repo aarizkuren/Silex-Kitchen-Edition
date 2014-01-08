@@ -15,7 +15,9 @@ use SilexAssetic\AsseticServiceProvider;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
-$app->register(new HttpCacheServiceProvider());
+if (!$app['debug']) {
+    $app->register(new HttpCacheServiceProvider());
+}
 
 $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
