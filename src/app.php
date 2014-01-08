@@ -29,7 +29,7 @@ $app->register(new TranslationServiceProvider());
 $app['translator'] = $app->share($app->extend('translator', function ($translator, $app) {
     $translator->addLoader('yaml', new YamlFileLoader());
 
-    $translator->addResource('yaml', __DIR__ . '/../resources/locales/fr.yml', 'es');
+    $translator->addResource('yaml', __DIR__ . '/../resources/locales/es.yml', 'es');
 
     return $translator;
 }));
