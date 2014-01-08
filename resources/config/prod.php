@@ -25,11 +25,12 @@ $app['assetic.input.path_to_assets'] = __DIR__ . '/../assets';
 
 $app['assetic.input.path_to_css']       = $app['assetic.input.path_to_assets'] . '/less/style.less';
 $app['assetic.output.path_to_css']      = 'css/styles.css';
+
 $app['assetic.input.path_to_js']        = array(
-    __DIR__ . '/../../vendor/bootstrap/js/tooltip.js',
-    __DIR__ . '/../../vendor/bootstrap/js/*.js',
-    __DIR__ . '/../../jquery/jquery.min.js',
-    __DIR__ . '/../../angular/angular.min.js',
+    $app['assetic.input.path_to_assets'] . '/js/lib/jquery/jquery.min.js',
+    $app['assetic.input.path_to_assets'] . '/js/lib/angular/angular.min.js',
+    $app['assetic.input.path_to_assets'] . '/js/lib/bootstrap/dist/js/bootstrap.min.js',
+    //$assetPath . '/bootstrap/js/*.js',
     $app['assetic.input.path_to_assets'] . '/js/script.js',
 );
 $app['assetic.output.path_to_js']       = 'js/scripts.js';

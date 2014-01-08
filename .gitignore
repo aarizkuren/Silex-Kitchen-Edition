@@ -4,5 +4,6 @@
 /vendor/
 /web/assets/*
 /web/js/libs/*
+/resources/assets/js/lib/*
 
 /.idea
