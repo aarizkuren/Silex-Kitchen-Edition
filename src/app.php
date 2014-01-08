@@ -22,28 +22,9 @@ $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 
-$app->register(new SecurityServiceProvider(), array(
-    'security.firewalls' => array(
-        'admin' => array(
-            'pattern' => '^/',
-            'form'    => array(
-                'login_path'         => '/login',
-                'username_parameter' => 'form[username]',
-                'password_parameter' => 'form[password]',
-            ),
-            'logout'    => true,
-            'anonymous' => true,
-            'users'     => $app['security.users'],
-        ),
-    ),
-));
-
-$app['security.encoder.digest'] = $app->share(function ($app) {
-    return new PlaintextPasswordEncoder();
-});
 
 $app->register(new TranslationServiceProvider());
-$app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
+$app['translator'] = $app->share($app->extend('translator', function ($translator, $app) {
     $translator->addLoader('yaml', new YamlFileLoader());
 
     $translator->addResource('yaml', __DIR__ . '/../resources/locales/fr.yml', 'es');
@@ -52,37 +33,43 @@ $app['translator'] = $app->share($app->extend('translator', function($translator
 }));
 
 $app->register(new MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/../resources/log/app.log',
-    'monolog.name'    => 'app',
-    'monolog.level'   => 300 // = Logger::WARNING
+    'monolog.logfile' => __DIR__ . '/../resources/log/app.log',
+    'monolog.name' => 'app',
+    'monolog.level' => 300 // = Logger::WARNING
 ));
 
 $app->register(new TwigServiceProvider(), array(
-    'twig.options'        => array(
-        'cache'            => isset($app['twig.options.cache']) ? $app['twig.options.cache'] : false,
+    'twig.options' => array(
+        'cache' => isset($app['twig.options.cache']) ? $app['twig.options.cache'] : false,
         'strict_variables' => true
     ),
     'twig.form.templates' => array('form_div_layout.html.twig', 'common/form_div_layout.html.twig'),
-    'twig.path'           => array(__DIR__ . '/../resources/views')
+    'twig.path' => array(__DIR__ . '/../resources/views')
 ));
+
+$app->register(new SecurityServiceProvider());
+
+$app['security.encoder.digest'] = $app->share(function ($app) {
+    return new PlaintextPasswordEncoder();
+});
 
 if ($app['debug'] && isset($app['cache.path'])) {
     $app->register(new ServiceControllerServiceProvider());
     $app->register(new WebProfilerServiceProvider(), array(
-        'profiler.cache_dir' => $app['cache.path'].'/profiler',
+        'profiler.cache_dir' => $app['cache.path'] . '/profiler',
     ));
 }
 
 if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
     $app->register(new AsseticServiceProvider(), array(
         'assetic.options' => array(
-            'debug'            => $app['debug'],
+            'debug' => $app['debug'],
             'auto_dump_assets' => $app['debug'],
         )
     ));
 
     $app['assetic.filter_manager'] = $app->share(
-        $app->extend('assetic.filter_manager', function($fm, $app) {
+        $app->extend('assetic.filter_manager', function ($fm, $app) {
             $fm->set('lessphp', new Assetic\Filter\LessphpFilter());
 
             return $fm;
@@ -90,7 +77,7 @@ if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
     );
 
     $app['assetic.asset_manager'] = $app->share(
-        $app->extend('assetic.asset_manager', function($am, $app) {
+        $app->extend('assetic.asset_manager', function ($am, $app) {
             $am->set('styles', new Assetic\Asset\AssetCache(
                 new Assetic\Asset\GlobAsset(
                     $app['assetic.input.path_to_css'],

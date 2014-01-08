@@ -1,10 +1,11 @@
 <?php
 
 // Local
-$app['locale'] = 'fr';
+$app['locale'] = 'es';
 $app['session.default_locale'] = $app['locale'];
 $app['translator.messages'] = array(
     'fr' => __DIR__.'/../resources/locales/fr.yml',
+    'es' => __DIR__ . '/../resources/locales/es.yml'
 );
 
 // Cache
@@ -25,8 +26,10 @@ $app['assetic.input.path_to_assets'] = __DIR__ . '/../assets';
 $app['assetic.input.path_to_css']       = $app['assetic.input.path_to_assets'] . '/less/style.less';
 $app['assetic.output.path_to_css']      = 'css/styles.css';
 $app['assetic.input.path_to_js']        = array(
-    __DIR__.'/../../vendor/twitter/bootstrap/js/bootstrap-tooltip.js',
-    __DIR__.'/../../vendor/twitter/bootstrap/js/*.js',
+    __DIR__ . '/../../vendor/bootstrap/js/tooltip.js',
+    __DIR__ . '/../../vendor/bootstrap/js/*.js',
+    __DIR__ . '/../../jquery/jquery.min.js',
+    __DIR__ . '/../../angular/angular.min.js',
     $app['assetic.input.path_to_assets'] . '/js/script.js',
 );
 $app['assetic.output.path_to_js']       = 'js/scripts.js';
@@ -41,4 +44,21 @@ $app['db.options'] = array(
 );
 
 // User
-$app['security.users'] = array('username' => array('ROLE_USER', 'password'));
+$users = $app->share(function () use ($app) {
+    return new \Tomsaver\Service\UserProvider(null);
+});
+
+// Firewall
+$app['security.firewalls'] = array(
+    'admin' => array(
+        'pattern' => '^/',
+        'form' => array(
+            'login_path' => '/login',
+            'username_parameter' => 'form[username]',
+            'password_parameter' => 'form[password]'
+        ),
+        'logout' => true,
+        'anonymous' => true,
+        'users' => $users,
+    ),
+);
