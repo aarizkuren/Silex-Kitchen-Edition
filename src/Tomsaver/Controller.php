@@ -8,6 +8,7 @@
 namespace Tomsaver;
 
 use Silex\Application;
+use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,6 +17,9 @@ abstract class Controller implements ControllerProviderInterface
 {
     /** @var \Silex\Application */
     protected $app;
+
+    /** @var  ControllerCollection */
+    private $controllers;
 
     /** @var  \Twig_Environment */
     private $twig;
@@ -29,6 +33,17 @@ abstract class Controller implements ControllerProviderInterface
     public function __construct(Application $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * @return ControllerCollection
+     */
+    protected function controllers()
+    {
+        if (null === $this->controllers) {
+            $this->controllers = $this->app['controllers_factory'];
+        }
+        return $this->controllers;
     }
 
     /**
