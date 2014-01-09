@@ -1,4 +1,1 @@
-(function($) {
-    $(function(){
-    });
-})(jQuery);
+angular.module('Backend', ['ngRoute', 'ui.bootstrap']);

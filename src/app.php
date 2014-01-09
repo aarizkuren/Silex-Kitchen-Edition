@@ -49,6 +49,19 @@ $app->register(new TwigServiceProvider(), array(
     'twig.path' => array(__DIR__ . '/../resources/views')
 ));
 
+/**
+ * Con esto, las plantillas de twig hay que usarlas con este
+ * léxico, porque {{ }} lo utiliza tambien angular
+ */
+$app->before(function () use ($app) {
+    $app['twig']->setLexer(new Twig_Lexer($app['twig'], [
+        'tag_comment' => ['[#', '#]'],
+        'tag_block' => ['[%', '%]'],
+        'tag_variable' => ['[[', ']]'],
+        'interpolation' => ['#[', ']'],
+    ]));
+});
+
 $app->register(new SecurityServiceProvider());
 
 $app['security.encoder.digest'] = $app->share(function ($app) {

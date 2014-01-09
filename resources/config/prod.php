@@ -27,9 +27,9 @@ $app['assetic.input.path_to_css']       = $app['assetic.input.path_to_assets'] .
 $app['assetic.output.path_to_css']      = 'css/styles.css';
 
 $app['assetic.input.path_to_js']        = array(
-    $app['assetic.input.path_to_assets'] . '/js/lib/jquery/jquery.min.js',
     $app['assetic.input.path_to_assets'] . '/js/lib/angular/angular.min.js',
-    $app['assetic.input.path_to_assets'] . '/js/lib/bootstrap/dist/js/bootstrap.min.js',
+    $app['assetic.input.path_to_assets'] . '/js/lib/angular-route/angular-route.min.js',
+    $app['assetic.input.path_to_assets'] . '/js/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
     //$assetPath . '/bootstrap/js/*.js',
     $app['assetic.input.path_to_assets'] . '/js/script.js',
 );

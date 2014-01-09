@@ -29,6 +29,7 @@
         "symfony/yaml": "~2.3",
         "twig/twig": "~1.10",
         "silex/web-profiler": "~1.0.1",
+        "jasongrimes/silex-simpleuser": "~0.6.3",
         "Tomsaver": "dev-master"
     },
     "require-dev": {

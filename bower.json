@@ -20,7 +20,8 @@
     "tests"
   ],
   "dependencies": {
-      "angular": "1.2.0-rc.1",
+      "angular-bootstrap": "*",
+      "angular-route": "*",
       "bootstrap": "~3.0.0"
   }
 }
