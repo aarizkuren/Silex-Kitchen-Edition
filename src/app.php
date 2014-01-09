@@ -10,7 +10,6 @@ use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
-use Silex\Provider\WebProfilerServiceProvider;
 use SilexAssetic\AsseticServiceProvider;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
@@ -70,9 +69,6 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
 
 if ($app['debug'] && isset($app['cache.path'])) {
     $app->register(new ServiceControllerServiceProvider());
-    $app->register(new WebProfilerServiceProvider(), array(
-        'profiler.cache_dir' => $app['cache.path'] . '/profiler',
-    ));
 }
 
 if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
