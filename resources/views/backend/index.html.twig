@@ -1,0 +1,10 @@
+<div class="container">
+    <h1>Hello</h1>
+    [% if is_granted('ROLE_USER') %]
+    Hello "[[ app.security.token.username ]]".<br/>
+    <a href="">[[ 'Logout'|trans ]]</a>
+    [% else %]
+    Your a not logged. Please <a href="">[[ 'connect'|trans ]]</a>
+    [% endif %]
+    {{ name }}
+</div>

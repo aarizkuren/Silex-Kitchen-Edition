@@ -22,7 +22,17 @@ class Backend extends Controller
 
         $controllers->get('/', function (Application $app, Request $request) {
             return $this->indexAction($app, $request);
+        })->bind('ng-homepage');
+
+        /**
+         * Angular JS Routes!
+         */
+        $controllers->get('index', function (Application $app, Request $request) {
+            return $this->twig()->render('backend/index.html.twig');
         })->bind('homepage');
+
+        $controllers->get('login', function () {
+        })->bind('ng-login');
 
         return $controllers;
     }
