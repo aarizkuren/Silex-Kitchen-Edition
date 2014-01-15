@@ -9,26 +9,27 @@ namespace Tomsaver;
 
 
 use Silex\Application;
-use Tomsaver\CustomerTracking\Controller\CustomerTrackingController;
-use Tomsaver\Lib\AbstractController;
+use Tomsaver\CustomerTracking\CustomerTrackingBundle;
+use Tomsaver\Lib\AppHelper;
 
-class RoutesLoader extends AbstractController
+class RoutesLoader extends AppHelper
 {
     public function __construct(Application $app)
     {
         parent::__construct($app);
-        $this->instantiateControllers();
+        $this->instantiateBundles();
     }
 
-    private function instantiateControllers()
+    private function instantiateBundles()
     {
-        $this->app['customerTracking.controller'] = $this->app->share(function () {
-            return new CustomerTrackingController($this->app);
+        $this->app['customerTracking.bundle'] = $this->app->share(function () {
+            return new CustomerTrackingBundle($this->app);
         });
     }
 
     public function bindRoutesToControllers()
     {
-        $this->app['customerTracking.controller']->bindRoutesToControllers();
+        /** CustomerTrackingBundle */
+        $this->app['customerTracking.bundle']->bindRoutesToControllers($this->controllers());
     }
 }

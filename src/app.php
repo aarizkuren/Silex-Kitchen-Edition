@@ -113,8 +113,9 @@ if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 
 // Loading Services
+$servicesLoader = new \Tomsaver\ServicesLoader($app);
+$servicesLoader->bindServicesIntoContainer();
 // Loading Routes
-
 $routesLoader = new \Tomsaver\RoutesLoader($app);
 $routesLoader->bindRoutesToControllers();
 
