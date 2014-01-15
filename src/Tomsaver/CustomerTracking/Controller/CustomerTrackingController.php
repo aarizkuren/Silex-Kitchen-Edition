@@ -9,27 +9,20 @@ namespace Tomsaver\CustomerTracking\Controller;
 
 use Silex\Application;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Request;
-use Tomsaver\Controller;
+use Tomsaver\Lib\AbstractController;
 
-class CustomerTrackingController extends Controller
+class CustomerTrackingController extends AbstractController
 {
-    /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
-     */
-    public function connect(Application $app)
+    public function bindRoutesToControllers()
     {
-        $controllers = $this->controllers();
-        $controllers->get('/hello/{name}', function (Application $app, Request $request) {
-            $result = array('name' => $request->get('name'));
-            return $app->json($result);
-        });
-        return $controllers;
+        $app = $this->app;
+
+        /** @var ControllerCollection $api */
+        $api = $this->controllers();
+
+        // Adding customerTracking registeredUser api
+        $this->createUrls("registered-users", "registeredUsers");
+
+        $app->mount($this->apiPath() . "/customer-tracking", $api);
     }
-
-
-} 
+}

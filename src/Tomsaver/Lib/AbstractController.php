@@ -1,19 +1,19 @@
 <?php
 /**
  * User: asier
- * Date: 7/01/14
- * Time: 17:16
+ * Date: 15/01/14
+ * Time: 12:40
  */
 
-namespace Tomsaver;
+namespace Tomsaver\Lib;
+
 
 use Silex\Application;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
 use Silex\Provider\SecurityServiceProvider;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-abstract class Controller implements ControllerProviderInterface
+abstract class AbstractController
 {
     /** @var \Silex\Application */
     protected $app;
@@ -33,6 +33,40 @@ abstract class Controller implements ControllerProviderInterface
     public function __construct(Application $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * returns api path
+     * @return string
+     */
+    protected function apiPath()
+    {
+        $app = $this->app;
+        return "{$app['api.endpoint']}/{$this->apiVersion()}";
+    }
+
+    protected function apiVersion()
+    {
+        return $this->app['api.version'];
+    }
+
+    public abstract function bindRoutesToControllers();
+
+    /**
+     * Helper to build simple CRUD for $baseUrl on $controller
+     *
+     * @param $baseUrl
+     * @param $controller
+     */
+    protected function createUrls($baseUrl, $controller)
+    {
+        /** @var ControllerCollection $api */
+        $api = $this->controllers();
+
+        $api->get("/$baseUrl", "$controller.controller:getAll");
+        $api->post("/$baseUrl", "$controller.controller:save");
+        $api->post("/$baseUrl", "$controller.controller:update");
+        $api->delete("/$baseUrl", "$controller.controller:delete");
     }
 
     /**
@@ -78,5 +112,4 @@ abstract class Controller implements ControllerProviderInterface
         }
         return $this->session;
     }
-
-}
+} 

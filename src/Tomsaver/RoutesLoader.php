@@ -9,45 +9,26 @@ namespace Tomsaver;
 
 
 use Silex\Application;
-use Silex\ControllerCollection;
+use Tomsaver\CustomerTracking\Controller\CustomerTrackingController;
+use Tomsaver\Lib\AbstractController;
 
-class RoutesLoader
+class RoutesLoader extends AbstractController
 {
-    private $app;
-
     public function __construct(Application $app)
     {
-        $this->app = $app;
+        parent::__construct($app);
         $this->instantiateControllers();
     }
 
     private function instantiateControllers()
     {
-        $this->app['article.controller'] = $this->app->share(function () {
-            return new ArticleController($this->app['article.service']);
+        $this->app['customerTracking.controller'] = $this->app->share(function () {
+            return new CustomerTrackingController($this->app);
         });
     }
 
     public function bindRoutesToControllers()
     {
-        $app = $this->app;
-        /** @var ControllerCollection $api */
-        $api = $app["controllers_factory"];
-
-        // Adding article api
-        $this->createUrls("articles", "article");
-
-        $app->mount($app['api.endpoint'] . '/' . $app['api.version'], $api);
-    }
-
-    private function createUrls($baseUrl, $controller)
-    {
-        /** @var ControllerCollection $api */
-        $api = $this->app["controllers_factory"];
-
-        $api->get("/$baseUrl", "$controller.controller:getAll"); // List
-        $api->post("/$baseUrl", "$controller.controller:save"); // create
-        $api->post("/$baseUrl/{id}", "$controller.controller:update"); // update
-        $api->delete("/$baseUrl/{id}", "$controller.controller:delete"); // delete
+        $this->app['customerTracking.controller']->bindRoutesToControllers();
     }
 }
