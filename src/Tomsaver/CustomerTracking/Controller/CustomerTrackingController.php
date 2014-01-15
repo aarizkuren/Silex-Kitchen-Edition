@@ -1,21 +1,19 @@
 <?php
 /**
  * User: asier
- * Date: 10/01/14
- * Time: 9:25
+ * Date: 15/01/14
+ * Time: 12:09
  */
 
-namespace Tomsaver\Controller;
-
+namespace Tomsaver\CustomerTracking\Controller;
 
 use Silex\Application;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\Request;
 use Tomsaver\Controller;
-use Tomsaver\CustomerTracking\Controller\CustomerTrackingController;
 
-class ApiController extends Controller
+class CustomerTrackingController extends Controller
 {
-
     /**
      * Returns routes to connect to the given application.
      *
@@ -26,9 +24,12 @@ class ApiController extends Controller
     public function connect(Application $app)
     {
         $controllers = $this->controllers();
-        // Cargamos el main controller de cada bundle que queramos
-        $app->mount($app['api.endpoint'] . '/' . $app['api.version'] . "/customer-tracking", new CustomerTrackingController($app));
+        $controllers->get('/hello/{name}', function (Application $app, Request $request) {
+            $result = array('name' => $request->get('name'));
+            return $app->json($result);
+        });
         return $controllers;
     }
+
 
 } 

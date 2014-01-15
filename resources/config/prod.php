@@ -8,6 +8,10 @@ $app['translator.messages'] = array(
     'es' => __DIR__ . '/../resources/locales/es.yml'
 );
 
+// Api version
+$app['api.version'] = 'v1';
+$app['api.endpoint'] = '/api';
+
 // Cache
 $app['cache.path'] = __DIR__ . '/../cache';
 
